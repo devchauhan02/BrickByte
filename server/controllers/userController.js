@@ -80,3 +80,39 @@ export const allBookings = expressAsyncHandler(async (req, res) => {
         throw new Error(err.message)
     }
 })
+export const cancelBooking = expressAsyncHandler(async (req, res) => {
+    const { email } = req.body;
+    const { id } = req.params;
+
+    try {
+        const user = await prisma.user.findUnique({
+            where: { email },
+            select: { bookedVisits: true }
+        });
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        const index = user.bookedVisits.findIndex((visit) => visit.id === id);
+
+        if (index === -1) {
+            return res.status(404).json({ message: "Booking not found" });
+        }
+
+        const updatedVisits = [...user.bookedVisits];
+        updatedVisits.splice(index, 1);
+
+        await prisma.user.update({
+            where: { email },
+            data: {
+                bookedVisits: updatedVisits
+            }
+        });
+
+        res.send({ message: "Booking canceled successfully" });
+    } catch (err) {
+        console.error("Error canceling booking:", err.message);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
