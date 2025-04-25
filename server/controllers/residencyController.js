@@ -72,3 +72,24 @@ export const getAllResidencies = expressAsyncHandler(async (req, res) => {
         return res.status(400).json({ message: "Invalid residency data" });
     }
 })
+
+export const getResidencyById = expressAsyncHandler(async (req, res) => {
+    console.log("Getting residency by id...");
+    const { id } = req.params;
+    const residency = await prisma.residency.findUnique({
+        where: {
+            id
+        },
+        include: {
+            owner: true,
+        },
+    });
+    if (residency) {
+        return res.send({
+            message: "Residency fetched successfully",
+            residency: residency
+        })
+    } else {
+        return res.status(400).json({ message: "Invalid residency data" });
+    }
+})

@@ -30,5 +30,5 @@ export const createUser = expressAsyncHandler(async (req, res) => {
     } else {
         return res.status(400).json({ message: "Invalid user data" });
     }
-}
-);
+});
+
