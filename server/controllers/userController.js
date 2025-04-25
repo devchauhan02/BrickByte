@@ -33,7 +33,6 @@ export const createUser = expressAsyncHandler(async (req, res) => {
 });
 
 export const bookVisit = expressAsyncHandler(async (req, res) => { 
-    console.log("Booking visit...");
     const { id } = req.params;
     const { date, email } = req.body;
     if (!date || !email) {
@@ -63,8 +62,21 @@ export const bookVisit = expressAsyncHandler(async (req, res) => {
     } catch (error) {
         console.error("Error booking visit:", error);
         return res.status(500).json({ message: "Error booking visit" });
-
-
     }
-}
-); 
+}); 
+
+export const allBookings = expressAsyncHandler(async (req, res) => {
+    const {email} = req.body;
+    try{
+        const booking = await prisma.user.findUnique({
+            where : {
+                email
+            },
+            select: {bookedVisits: true}
+        })
+        res.status(200).send(booking)
+    }
+    catch(err){
+        throw new Error(err.message)
+    }
+})
