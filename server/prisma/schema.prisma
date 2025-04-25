@@ -13,20 +13,26 @@ model User {
     email            String?  @unique
     image            String?
     bookedVisits     Json[]
-    favResidenciesiD String[] @db.ObjectId
+    favResidenciesID String[] @db.ObjectId
     password         String?
     createdAt        DateTime @default(now())
-    updatedAt        DateTime @updatedAt
+    updatedAt        DateTime    @updatedAt
+    ownedResidencies Residency[] @relation("Owner")
 }
 
 model Residency {
     id           String   @id @default(auto()) @map("_id") @db.ObjectId
     title        String?
     description  String?
+    address      String?
+    city         String?
+    country      String?
     image        String?
+    facilities   Json
+    userEmail    String?
+    owner        User?    @relation("Owner", fields: [userEmail], references: [email])
     price        Float?
-    location     String?
-    bookedVisits Json[]
     createdAt    DateTime @default(now())
     updatedAt    DateTime @updatedAt
+    @@unique(fields: [address , userEmail])
 }
