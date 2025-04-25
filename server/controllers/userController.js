@@ -97,7 +97,7 @@ export const cancelBooking = expressAsyncHandler(async (req, res) => {
         const index = user.bookedVisits.findIndex((visit) => visit.id === id);
 
         if (index === -1) {
-            return res.status(404).json({ message: "Booking not found" });
+            return res.status(404).json({ message: "Booking not found or has already been canceled" });
         }
 
         const updatedVisits = [...user.bookedVisits];
@@ -114,5 +114,52 @@ export const cancelBooking = expressAsyncHandler(async (req, res) => {
     } catch (err) {
         console.error("Error canceling booking:", err.message);
         res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+// add residency to fav
+export const addToFav = expressAsyncHandler(async (req, res) => {
+    const { email } = req.body;
+    const { id } = req.params;
+
+    try {
+        const user = await prisma.user.findUnique({
+            where: { email: email }
+        });
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        if (user.favResidenciesID.includes(id)) {
+            const updateUser = await prisma.user.update({
+                where: { email },
+                data: {
+                    favResidenciesID: {
+                        set: user.favResidenciesID.filter((favId) => favId !== id)
+                    }
+                }
+            });
+            return res.send({
+                message: "Removed from favorites successfully",
+                user: updateUser
+            });
+        }
+
+        const updateUser = await prisma.user.update({
+            where: { email },
+            data: {
+                favResidenciesID: {
+                    push: id 
+                }
+            }
+        });
+        return res.send({
+            message: "Added to favorites successfully",
+            user: updateUser
+        });
+    } catch (error) {
+        console.error("Error adding/removing favorite:", error);
+        return res.status(500).json({ message: "Internal server error" });
     }
 });
