@@ -10,10 +10,10 @@ const Header = () => {
 
   return (
     <section
-      className="sticky top-0 z-[99] w-full bg-black"
+      className="sticky top-0 z-[50] w-full bg-transparent "
       style={{ background: headerColor }}
     >
-      <div className="max-w-[1200px] mx-auto flex justify-between items-center py-4 px-6 sm:px-4 text-white">
+      <div className="max-w-[1200px] mx-auto flex justify-between items-center py-4 px-6 sm:px-15 text-white">
         {/* Logo */}
         <img src="./logo.png" alt="logo" className="w-24 sm:w-20" />
 

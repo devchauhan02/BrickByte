@@ -4,17 +4,17 @@ import { motion } from "framer-motion";
 
 const Hero = () => {
   return (
-    <section className="relative z-[1] text-white pb-8 bg-black pt-8">
+    <section className="relative z-[1] text-white pb-8 bg-transparent pt-8">
       <div className="flex justify-between items-center w-full max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Left Side */}
-        <div className="flex flex-col gap-12 max-w-[550px]">
+        <div className="flex flex-col gap-12 max-w-[550px] sm:px-15">
           <div className="relative z-[1]">
-            <div className="absolute right-[22%] -top-[10%] w-13 h-13 rounded-full z-[-10] bg-gradient-to-r from-orange-400 to-orange-600" />
+            <div className="absolute right-[48%] -top-[11%] w-13 h-13 rounded-full z-[-10] bg-gradient-to-r from-orange-400 to-orange-600" />
             <motion.h1
               initial={{ y: "2rem", opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 2, type: "ease-in" }}
-              className="font-semibold text-[3.8rem] leading-[4rem] sm:text-[2.5rem] sm:leading-[3rem]"
+              className="font-semibold text-[3.8rem] leading-[4rem] sm:text-[2.5rem] sm:leading-[3rem] "
             >
               Discover <br />
               Most Suitable <br /> Property
@@ -68,7 +68,7 @@ const Hero = () => {
             initial={{ x: "7rem", opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 2, type: "ease-in" }}
-            className="w-[38rem] h-[34rem] sm:w-[90%] sm:h-[25rem] overflow-hidden rounded-t-[18rem] border-[10px] border-white/10"
+            className="w-[38rem] h-[34rem] sm:w-[95%] sm:h-[28rem] overflow-hidden rounded-t-[18rem] border-[10px] border-white/10"
           >
             <img src="./hero-image.png" alt="houses" className="w-full h-full object-cover" />
           </motion.div>
