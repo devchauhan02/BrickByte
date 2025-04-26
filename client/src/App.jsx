@@ -1,7 +1,8 @@
 import Hero from "./component/Hero";
 import Header from "./component/Header";
-import Companies from "./component/Companies/Companies";
-import Residencies from "./component/residencies/Residencies";
+import Companies from "./component/Companies";
+import Residencies from "./component/Residencies";
+import Value from "./component/Value";
 
 const App = () => {
   return (
@@ -15,7 +16,8 @@ const App = () => {
         <Hero />
       </div>
       <Companies />
-      <Residencies />       
+      <Residencies />
+      <Value/>
     </div>
   );
 };
