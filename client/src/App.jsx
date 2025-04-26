@@ -3,6 +3,7 @@ import Header from "./component/Header";
 import Companies from "./component/Companies";
 import Residencies from "./component/Residencies";
 import Value from "./component/Value";
+import Contact from "./component/Contact";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
       <Companies />
       <Residencies />
       <Value/>
+      <Contact />
     </div>
   );
 };
