@@ -1,9 +1,10 @@
 import Hero from "./component/Hero";
 import Header from "./component/Header";
+import Companies from "./component/Companies/Companies";
 
 const App = () => {
   return (
-    <div className="relative overflow-x-clip bg-black">
+    <div className="relative overflow-x-clip ">
       {/* White Gradient Blur */}
       <div className="absolute top-0 left-0 w-[25rem] h-[25rem] bg-white opacity-20 blur-[90px] rounded-full z-[51]" />
 
@@ -12,6 +13,7 @@ const App = () => {
         <Header />
         <Hero />
       </div>
+      <Companies />
     </div>
   );
 };

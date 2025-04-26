@@ -9,10 +9,11 @@ const Header = () => {
   const headerColor = useHeaderColor();
 
   return (
-    <section
-      className="sticky top-0 z-[50] w-full bg-transparent "
+    <header
+      className="sticky top-0 z-50 w-full"
       style={{ background: headerColor }}
     >
+      {/* Content wrapper */}
       <div className="max-w-[1200px] mx-auto flex justify-between items-center py-4 px-6 sm:px-15 text-white">
         {/* Logo */}
         <img src="./logo.png" alt="logo" className="w-24 sm:w-20" />
@@ -20,7 +21,7 @@ const Header = () => {
         {/* Menu */}
         <OutsideClickHandler onOutsideClick={() => setMenuOpened(false)}>
           <div
-            className={`hidden md:flex gap-8 font-medium text-gray-300 items-center`}
+            className="hidden md:flex gap-8 font-medium text-gray-300 items-center"
             style={getMenuStyles(menuOpened)}
           >
             <a href="#residencies" className="hover:text-white transition">Residencies</a>
@@ -44,7 +45,7 @@ const Header = () => {
 
       {/* Mobile Dropdown */}
       {menuOpened && (
-        <div className="absolute top-[70px] right-6 bg-white text-black flex flex-col gap-6 p-8 rounded-lg shadow-md md:hidden z-50 font-medium">
+        <div className="absolute top-[80px] right-6 bg-white text-black flex flex-col gap-6 p-8 rounded-lg shadow-md md:hidden z-50 font-medium">
           <a href="#residencies">Residencies</a>
           <a href="#value">Our Value</a>
           <a href="#contact-us">Contact Us</a>
@@ -54,7 +55,7 @@ const Header = () => {
           </button>
         </div>
       )}
-    </section>
+    </header>
   );
 };
 

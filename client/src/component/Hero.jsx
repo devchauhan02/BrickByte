@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 const Hero = () => {
   return (
-    <section className="relative z-[1] text-white pb-8 bg-transparent pt-8">
+    <section className="relative z-[1] text-white pb-8 bg-black pt-8">
       <div className="flex justify-between items-center w-full max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Left Side */}
         <div className="flex flex-col gap-12 max-w-[550px] sm:px-15">
