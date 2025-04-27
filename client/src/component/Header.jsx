@@ -29,7 +29,7 @@ const Header = () => {
             <a href="#contact-us" className="hover:text-white transition">Contact Us</a>
             <a href="#get-started" className="hover:text-white transition">Get Started</a>
             <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
-              <a href="mailto:zainkeepscode@gmail.com">Contact</a>
+              <a href="mailto:devashishchauhan07@gmail.com">Contact</a>
             </button>
           </div>
         </OutsideClickHandler>

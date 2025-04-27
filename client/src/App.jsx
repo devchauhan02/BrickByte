@@ -4,6 +4,8 @@ import Companies from "./component/Companies";
 import Residencies from "./component/Residencies";
 import Value from "./component/Value";
 import Contact from "./component/Contact";
+import GetStarted from "./component/GetStarted";
+import Footer from "./component/Footer";
 
 const App = () => {
   return (
@@ -20,6 +22,8 @@ const App = () => {
       <Residencies />
       <Value/>
       <Contact />
+      <GetStarted />
+      <Footer/>
     </div>
   );
 };
