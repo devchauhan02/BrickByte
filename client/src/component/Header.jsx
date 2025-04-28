@@ -3,6 +3,7 @@ import { BiMenuAltRight } from "react-icons/bi";
 import { getMenuStyles } from "../utils/common";
 import useHeaderColor from "../hooks/useHeaderColor";
 import OutsideClickHandler from "react-outside-click-handler";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [menuOpened, setMenuOpened] = useState(false);
@@ -14,12 +15,12 @@ const Header = () => {
       style={{ background: headerColor }}
     >
       {/* Content wrapper */}
-      <div className="max-w-[1200px] mx-auto flex justify-between items-center py-4 px-6 sm:px-15 text-white">
+      <div className="max-w-[1200px] mx-auto flex justify-between items-center py-1 px-6 sm:px-15 text-white">
         {/* Logo */}
-        <img src="./logo.png" alt="logo" className="w-24 sm:w-20" />
+        <Link to ="/" ><img  src="./logo3.png" alt="logo" className="w-24 sm:w-24 h-22" /></Link>
 
         {/* Menu */}
-        <OutsideClickHandler onOutsideClick={() => setMenuOpened(false)}>
+        <OutsideClickHandler onOutsideClick={() => setMenuOpened(false)}>             
           <div
             className="hidden md:flex gap-8 font-medium text-gray-300 items-center"
             style={getMenuStyles(menuOpened)}
