@@ -2,7 +2,7 @@ import { prisma } from "../config/prismaConfig.js";
 import expressAsyncHandler from "express-async-handler";
 
 export const createUser = expressAsyncHandler(async (req, res) => {
-    console.log("Creating user...");
+    
     const { name, email, password } = req.body;
     if (!name || !email || !password) {
         return res.status(400).json({ message: "Please fill all fields" });

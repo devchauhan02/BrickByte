@@ -5,88 +5,92 @@ import useHeaderColor from "../hooks/useHeaderColor";
 import OutsideClickHandler from "react-outside-click-handler";
 import { Link, NavLink } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import useAuthCheck from "../hooks/useAuthCheck";
+import ProfileMenu from "./ProfileMenu";
 
 const Header = () => {
   const [menuOpened, setMenuOpened] = useState(false);
-  const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
   const headerColor = useHeaderColor();
+  const [modalOpened, setModalOpened] = useState(false);
+  const { loginWithRedirect, isAuthenticated, user, logout } = useAuth0();
+  const { validateLogin } = useAuthCheck();
+
+  const handleAddPropertyClick = () => {
+    if (validateLogin()) {
+      setModalOpened(true);
+    }
+  };
 
   return (
-    <header
-      className="sticky top-0 z-50 w-full"
-      style={{ background: headerColor }}
-    >
-      <div className="max-w-[1200px] mx-auto flex justify-between items-center py-1 px-6 sm:px-15 text-white">
+    <header className="sticky top-0 z-50 w-full" style={{ background: headerColor }}>
+      <div className="max-w-[1200px] mx-auto flex justify-between items-center py-4 px-6 sm:px-10 text-white">
         {/* Logo */}
         <Link to="/">
-          <img src="./log3.png" alt="logo" className="w-24 sm:w-24 h-15" />
+          <img src="./logo3.png" alt="logo" className="w-[100px] h-[50px]" />
         </Link>
 
         {/* Desktop Menu */}
         <OutsideClickHandler onOutsideClick={() => setMenuOpened(false)}>
           <div
-            className="hidden md:flex gap-8 font-medium text-gray-300 items-center"
+            className={`hidden md:flex items-center gap-8 font-medium text-gray-200`}
             style={getMenuStyles(menuOpened)}
           >
-            <NavLink to="/properties">Properties</NavLink>
-            <a href="mailto:devashishchauhan07@gmail.com">Contact</a>
+            <NavLink to="/properties" className="hover:text-white">
+              Properties
+            </NavLink>
+            <a href="mailto:devashischauhan07@gmail.com" className="hover:text-white">
+              Contact
+            </a>
 
+            {/* Add Property Button */}
+            <div onClick={handleAddPropertyClick}>Add Property</div>
+
+            {/* Login / Profile Menu */}
             {!isAuthenticated ? (
               <button
+                onClick={loginWithRedirect}
                 className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition cursor-pointer"
-                onClick={() => loginWithRedirect()}
               >
                 Login
               </button>
             ) : (
-              <div className="flex items-center gap-4">
-                <span className="text-white">{user?.name}</span>
-                <button
-                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition cursor-pointer"
-                  onClick={() =>
-                    logout({ logoutParams: { returnTo: window.location.origin } })
-                  }
-                >
-                  Sign Out
-                </button>
-              </div>
+              <ProfileMenu user={user} logout={logout} />
             )}
           </div>
         </OutsideClickHandler>
 
-        {/* Mobile Icon */}
+        {/* Mobile Menu Icon */}
         <div
-          className="md:hidden block text-white cursor-pointer"
+          className="md:hidden text-white cursor-pointer"
           onClick={() => setMenuOpened((prev) => !prev)}
         >
           <BiMenuAltRight size={30} />
         </div>
       </div>
 
-      {/* Mobile Dropdown */}
+      {/* Mobile Dropdown Menu */}
       {menuOpened && (
         <div className="absolute top-[80px] right-6 bg-white text-black flex flex-col gap-6 p-8 rounded-lg shadow-md md:hidden z-50 font-medium">
-          <a href="#residencies">Residencies</a>
-          <a href="#value">Our Value</a>
-          <a href="#contact-us">Contact Us</a>
-          <a href="#get-started">Get Started</a>
+          <NavLink to="/properties" onClick={() => setMenuOpened(false)}>
+            Properties
+          </NavLink>
+          <a href="mailto:devashischauhan07@gmail.com" onClick={() => setMenuOpened(false)}>
+            Contact
+          </a>
+          <button onClick={handleAddPropertyClick}>Add Property</button>
 
           {!isAuthenticated ? (
             <button
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
-              onClick={() => loginWithRedirect()}
+              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition cursor-pointer"
+              onClick={() => {
+                setMenuOpened(false);
+                loginWithRedirect();
+              }}
             >
               Login
             </button>
           ) : (
-            <button
-              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
-              onClick={() =>
-                logout({ logoutParams: { returnTo: window.location.origin } })
-              }
-            >
-              Sign Out
-            </button>
+            <ProfileMenu user={user} logout={logout} />
           )}
         </div>
       )}

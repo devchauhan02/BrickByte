@@ -2,7 +2,7 @@ import { prisma } from "../config/prismaConfig.js";
 import expressAsyncHandler from "express-async-handler";
 
 export const createResidency = expressAsyncHandler(async (req, res) => {
-    console.log("Creating residency...");
+   
     const {title, description, address, city, country, image , facilities, userEmail, price} = req.body.data;
     if (!title || !description || !address || !city || !country || !image || !facilities || !userEmail || !price) {
         return res.status(400).json({ 
