@@ -3,7 +3,7 @@ import { BiMenuAltRight } from "react-icons/bi";
 import { getMenuStyles } from "../utils/common";
 import useHeaderColor from "../hooks/useHeaderColor";
 import OutsideClickHandler from "react-outside-click-handler";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const Header = () => {
   const [menuOpened, setMenuOpened] = useState(false);
@@ -17,7 +17,7 @@ const Header = () => {
       {/* Content wrapper */}
       <div className="max-w-[1200px] mx-auto flex justify-between items-center py-1 px-6 sm:px-15 text-white">
         {/* Logo */}
-        <Link to ="/" ><img  src="./logo3.png" alt="logo" className="w-24 sm:w-24 h-22" /></Link>
+        <Link to ="/" ><img  src="./logo3.png" alt="logo" className="w-24 sm:w-24 h-15" /></Link>
 
         {/* Menu */}
         <OutsideClickHandler onOutsideClick={() => setMenuOpened(false)}>             
@@ -25,13 +25,11 @@ const Header = () => {
             className="hidden md:flex gap-8 font-medium text-gray-300 items-center"
             style={getMenuStyles(menuOpened)}
           >
-            <a href="#residencies" className="hover:text-white transition">Residencies</a>
-            <a href="#value" className="hover:text-white transition">Our Value</a>
-            <a href="#contact-us" className="hover:text-white transition">Contact Us</a>
-            <a href="#get-started" className="hover:text-white transition">Get Started</a>
-            <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
-              <a href="mailto:devashishchauhan07@gmail.com">Contact</a>
-            </button>
+           
+            <NavLink to="/properties">Properties</NavLink>
+            <a href="mailto:devashishchauhan07@gmail.com">Contact</a>
+            <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition cursor-pointer">Login</button>
+           
           </div>
         </OutsideClickHandler>
 

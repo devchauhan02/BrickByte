@@ -1,6 +1,7 @@
 import { HiLocationMarker } from "react-icons/hi";
 import CountUp from "react-countup";
 import { motion } from "framer-motion";
+import SearchBar from "./SearchBar";
 
 const Hero = () => {
   return (
@@ -26,17 +27,7 @@ const Hero = () => {
             <span>Forget all difficulties in finding a residence for you</span>
           </div>
 
-          <div className="flex items-center bg-white rounded border-[3px] border-gray-400/40 py-2 px-4 w-full justify-between">
-            <HiLocationMarker color="#1f3e72" size={25} />
-            <input
-              type="text"
-              className="outline-none border-none w-full px-2 text-black"
-              placeholder="Search location"
-            />
-            <button className="bg-blue-500 text-white px-6 py-3 font-semibold rounded hover:bg-blue-600 transition">
-              Search
-            </button>
-          </div>
+          <SearchBar/>
 
           <div className="flex justify-between w-full flex-wrap gap-6 sm:justify-center">
             <div className="flex flex-col items-center">
