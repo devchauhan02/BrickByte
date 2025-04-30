@@ -54,7 +54,6 @@ export const createResidency = expressAsyncHandler(async (req, res) => {
 })
 
 export const getAllResidencies = expressAsyncHandler(async (req, res) => {
-    console.log("Getting all residencies...");
     const residencies = await prisma.residency.findMany({
         include: {
             owner: true,
@@ -74,7 +73,6 @@ export const getAllResidencies = expressAsyncHandler(async (req, res) => {
 })
 
 export const getResidencyById = expressAsyncHandler(async (req, res) => {
-    console.log("Getting residency by id...");
     const { id } = req.params;
     const residency = await prisma.residency.findUnique({
         where: {

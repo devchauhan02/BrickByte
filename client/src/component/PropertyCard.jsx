@@ -1,17 +1,14 @@
 import React from "react";
 import { truncate } from 'lodash';
 import { useNavigate } from "react-router-dom";
-import data from "../utils/slider.json";
-
-import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import "swiper/css";
-import { sliderSettings } from "../utils/common";
 import { AiFillHeart } from 'react-icons/ai';
 const PropertyCard = ({ card }) => {
     const navigate = useNavigate();
 
     return (
-        <div className=" relative flex flex-col items-start gap-2 p-4 rounded-xl max-w-max m-auto transition-all duration-300 hover:scale-105 hover:bg-gradient-to-b from-transparent to-blue-200/50 hover:shadow-[0px_72px_49px_-51px_rgba(136,160,255,0.21)] cursor-pointer">
+        <div className=" relative flex flex-col items-start gap-2 p-4 rounded-xl max-w-max m-auto transition-all duration-300 hover:scale-105 hover:bg-gradient-to-b from-transparent to-blue-200/50 hover:shadow-[0px_72px_49px_-51px_rgba(136,160,255,0.21)] cursor-pointer " 
+        onClick={() => navigate(`/properties/${card.id}`)}>
             <AiFillHeart color="white" size={25} className="absolute top-5 right-5"/>
             <img src={card.image} alt="home" className="w-full max-w-[15rem] h-[10rem] rounded-xl" />
             <span className="text-gray-400 text-xl font-semibold">
