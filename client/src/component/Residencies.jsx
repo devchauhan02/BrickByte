@@ -1,11 +1,16 @@
 import React from "react";
-import data from "../utils/slider.json";
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import "swiper/css";
 import { sliderSettings } from "../utils/common";
 import PropertyCard from "./PropertyCard";
+import useProperties from "../hooks/useProperties";
+import PuffLoader from "react-spinners/PuffLoader";
 
 const Residencies = () => {
+  const {data , isLoading, isError} = useProperties();
+  
+  if(isLoading) return <div className="flex justify-center items-center mt-4 "><PuffLoader color="#36d7b7" height={80} width={80} radius={1} aria-label="Loading..." /></div>;
+  if(isError) return <div className="flex justify-center mt-4">Error while fetching data</div>;
   return (
     <div  className="flex flex-col gap-8 relative overflow-hidden px-6 py-10 max-w-[1200px] mx-auto">
       {/* Headings */}
@@ -17,7 +22,7 @@ const Residencies = () => {
       {/* Slider */}
       <Swiper {...sliderSettings} className="w-full">
         <SlideNextButton />
-        {data.map((card, i) => (
+        {data.residencies.slice(0 , 8).map((card, i) => (
           <SwiperSlide key={i}>
             <PropertyCard card={card} />
           </SwiperSlide>
