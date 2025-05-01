@@ -8,7 +8,7 @@ const ProfileMenu = ({ user, logout }) => {
   return (
     <Menu position="bottom-end" shadow="md">
       <Menu.Target>
-        <Avatar
+        <Avatar className='cursor-pointer'
           src={user?.picture}
           alt="user image"
           width={40}

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { useLocation } from 'react-router-dom';
 import { getProperty } from '../utils/api';
 import { PuffLoader } from 'react-spinners';
@@ -7,6 +7,16 @@ import { AiFillHeart, AiTwotoneCar } from 'react-icons/ai';
 import {FaShower} from 'react-icons/fa'
 import { MdMeetingRoom , MdLocationPin} from 'react-icons/md';
 import Map from '../component/Map'
+import useAuthCheck from '../hooks/useAuthCheck';
+import { useAuth0 } from '@auth0/auth0-react';
+import { useState } from 'react';
+import BookingModal from '../component/BookingModal';
+import { useContext } from 'react';
+import UserDetailContext from '../context/UserDetailContext';
+import { Button } from '@mantine/core';
+import { removeBooking } from '../utils/api';
+import { toast } from 'react-toastify';
+
 
 
 const Property = () => {
@@ -14,9 +24,33 @@ const Property = () => {
   const id = pathname.split("/")[2];
  
   const { data, isLoading, isError } = useQuery(["residency", id], () => getProperty(id));
+  const [modalOpened, setModalOpened] = useState(false);
+  const {validateLogin} = useAuthCheck();
+  const {user} =useAuth0();
+
+  const {
+    userDetail: { token, bookings },
+    setUserDetail,
+  } = useContext(UserDetailContext);
+
+  const { mutate: cancelBooking, isLoading: cancelling } = useMutation({
+    mutationFn: () => removeBooking(id, user?.email, token),
+    onSuccess: () => {
+      setUserDetail((prev) => ({
+        ...prev,
+        bookings: prev.bookings.filter((booking) => booking?.id !== id),
+      }));
+
+      toast.success("Booking cancelled", { position: "bottom-right" });
+    },
+  });
+
+
 
   if (isLoading) return <div className="flex justify-center items-center mt-4 "><PuffLoader color="#36d7b7" height={80} width={80} radius={1} aria-label="Loading..." /></div>;
   if (isError) return <div className="flex justify-center mt-4">Error while fetching data</div>;
+
+
 
   return (
     <div>
@@ -62,14 +96,41 @@ const Property = () => {
               {data?.residency?.address} {data?.residency?.city} {data?.country}
             </span>
           </div>
-          <button className="w-[35%] mt-4 px-1 py-3 bg-blue-600 hover:bg-blue-700 text-white cursor-pointer rounded-lg transition-transform hover:scale-105">
-            Book Your Visit
-          </button>
+
+          {bookings?.map((booking) => booking.id).includes(id) ? (
+              <>
+                <Button
+                  variant="outline"
+                  w={"100%"}
+                  color="red"
+                  onClick={() => cancelBooking()}
+                  disabled={cancelling}
+                >
+                  <span>Cancel booking</span>
+                </Button>
+                <span>
+                  Your visit already booked for date{" "}
+                  {bookings?.filter((booking) => booking?.id === id)[0].date}
+                </span>
+              </>
+            ) : (
+              <button
+                className="w-[35%] mt-4 px-1 py-3 bg-blue-600 hover:bg-blue-700 text-white cursor-pointer rounded-lg transition-transform hover:scale-105"
+                onClick={() => {
+                  validateLogin() && setModalOpened(true);
+                }}
+              >
+                Book your visit
+              </button>
+            )}
+
+          <BookingModal opened={modalOpened} setOpened={setModalOpened} propertyId={data?.residency?.id}  email={user?.email}/>
+
           </div>
 
           {/* Right Section */}
           <div className='flex flex-col gap-6 flex-1'>
-             <Map address = {data?.residency?.address} city = {data?.residency?.city} country = {data?.residency?.country} />
+             <Map address = {data?.residency?.address} city = {data?.residency?.city} country = {data?.residency?.country} email = {user?.email}/>
           </div>
         </div>
       </div>

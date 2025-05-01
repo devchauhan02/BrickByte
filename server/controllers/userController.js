@@ -13,7 +13,7 @@ export const createUser = expressAsyncHandler(async (req, res) => {
         },
     });
     if (userExists) {
-        return res.status(400).json({ message: "User already exists" });
+        return res.status(201).json({ message: "User already exists" });
     }
     const user = await prisma.user.create({
         data: {

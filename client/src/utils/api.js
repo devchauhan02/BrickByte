@@ -6,6 +6,7 @@ export const api = axios.create({
   baseURL: "http://localhost:8000/api",
 });
 
+
 export const getAllProperties = async () => {
   try {
     const response = await api.get("/residency/getAll", {
@@ -42,7 +43,7 @@ export const createUser = async (email, token) => {
   try {
     await api.post(
       `/user/register`,
-      { email },
+      { email, name: email , password : "12345" },
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -54,7 +55,6 @@ export const createUser = async (email, token) => {
     throw error;
   }
 };
-
 export const bookVisit = async (date, propertyId, email, token) => {
   try {
     await api.post(
@@ -79,7 +79,7 @@ export const bookVisit = async (date, propertyId, email, token) => {
 export const removeBooking = async (id, email, token) => {
   try {
     await api.post(
-      `/user/removeBooking/${id}`,
+      `/user/cancelBooking/${id}`,
       {
         email,
       },
