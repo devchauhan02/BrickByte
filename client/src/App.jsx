@@ -10,12 +10,16 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import UserDetailContext from "./context/UserDetailContext";
 import "react-toastify/dist/ReactToastify.css";
+import Bookings from "./pages/Bookings";
+
 
 const App = () => {
   const queryClient = new QueryClient();
   const [userDetail, setUserDetail] = useState(() => {
     const local = localStorage.getItem("userDetail");
-    return local ? JSON.parse(local) : { favourites: [], Bookings: [], token: null };
+    return local
+      ? JSON.parse(local)
+      : { favourites: [], bookings: [], token: null };
   });
 
   useEffect(() => {
@@ -35,6 +39,7 @@ const App = () => {
                   <Route path=":propertyID" element={<Property />} />
                 </Route>
                 <Route path="/favourites" element={<Favourites />} />
+                <Route path="/bookings" element={<Bookings />} />
               </Route>
             </Routes>
           </Suspense>

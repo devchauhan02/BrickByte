@@ -20,16 +20,19 @@ const BookingModal = ({ opened, setOpened, email, propertyId }) => {
       position: "bottom-right",
     });
 
-    setUserDetail((prev) => ({
-      ...prev,
-      bookings: [
-        ...(prev.bookings || []), // <-- Safely handle undefined bookings
-        {
-          id: propertyId,
-          date: dayjs(value).format("DD/MM/YYYY"),
-        },
-      ],
-    }));
+    // Update the bookings array in context and localStorage
+    setUserDetail((prev) => {
+      const updatedBookings = [
+        ...(prev.bookings || []), // If bookings is undefined, initialize as empty array
+        { id: propertyId, date: dayjs(value).format("DD/MM/YYYY") },
+      ];
+
+      // Save updated bookings to localStorage
+      const newDetail = { ...prev, bookings: updatedBookings };
+      localStorage.setItem("userDetail", JSON.stringify(newDetail));
+
+      return newDetail;
+    });
   };
 
   const { mutate, isLoading } = useMutation({

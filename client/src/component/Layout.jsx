@@ -8,7 +8,6 @@ import UserDetailContext from '../context/UserDetailContext';
 import { createUser } from '../utils/api';
 const Layout = () => {
 
-   
 
   const { isAuthenticated, user, getAccessTokenWithPopup } = useAuth0();
   const { setUserDetail } = useContext(UserDetailContext);

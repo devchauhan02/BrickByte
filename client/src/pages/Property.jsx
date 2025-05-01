@@ -46,7 +46,16 @@ const Property = () => {
     },
   });
 
-
+  const handleBooking = () => {
+    if (!validateLogin()) return;
+  
+    bookMutation.mutate(); // your mutation logic
+    setUserDetail((prev) => ({  
+      ...prev,
+      bookings: [...prev.bookings, property.id],
+    }));
+  };
+  
 
   if (isLoading) return <div className="flex justify-center items-center mt-4 "><PuffLoader color="#36d7b7" height={80} width={80} radius={1} aria-label="Loading..." /></div>;
   if (isError) return <div className="flex justify-center mt-4">Error while fetching data</div>;
