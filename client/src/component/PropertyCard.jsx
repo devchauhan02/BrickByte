@@ -3,13 +3,16 @@ import { truncate } from 'lodash';
 import { useNavigate } from "react-router-dom";
 import "swiper/css";
 import { AiFillHeart } from 'react-icons/ai';
+import Heart from "./Heart";
 const PropertyCard = ({ card }) => {
     const navigate = useNavigate();
 
     return (
         <div className=" relative flex flex-col items-start gap-2 p-4 rounded-xl max-w-max m-auto transition-all duration-300 hover:scale-105 hover:bg-gradient-to-b from-transparent to-blue-200/50 hover:shadow-[0px_72px_49px_-51px_rgba(136,160,255,0.21)] cursor-pointer " 
         onClick={() => navigate(`/properties/${card.id}`)}>
-            <AiFillHeart color="white" size={25} className="absolute top-5 right-5"/>
+            <div className="absolute top-5 right-5 z-10">
+    <Heart id={card.id} />
+  </div>
             <img src={card.image} alt="home" className="w-full max-w-[15rem] h-[10rem] rounded-xl" />
             <span className="text-gray-400 text-xl font-semibold">
                 <span className="text-orange-500">$</span>{card.price}

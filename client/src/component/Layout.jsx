@@ -6,8 +6,9 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { useMutation } from 'react-query';
 import UserDetailContext from '../context/UserDetailContext';
 import { createUser } from '../utils/api';
-
 const Layout = () => {
+
+   
 
   const { isAuthenticated, user, getAccessTokenWithPopup } = useAuth0();
   const { setUserDetail } = useContext(UserDetailContext);

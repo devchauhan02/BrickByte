@@ -1,38 +1,40 @@
-import Website from "./pages/Website";
+import { useEffect, useState, Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Suspense, useState } from "react";
 import Layout from "./component/Layout";
+import Website from "./pages/Website";
+import Properties from "./pages/Properties";
+import Property from "./pages/Property";
+import Favourites from "./pages/Favourites";
 import { ToastContainer } from "react-toastify";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-import "react-toastify/dist/ReactToastify.css";
-import Properties from "./pages/Properties";
-import Property from "./pages/Property";
 import UserDetailContext from "./context/UserDetailContext";
-import Favourites from "./pages/Favourites";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   const queryClient = new QueryClient();
-  const [userDetail, setUserDetail] = useState({
-    favourites: [],
-    Bookings: [],
-    token: null
+  const [userDetail, setUserDetail] = useState(() => {
+    const local = localStorage.getItem("userDetail");
+    return local ? JSON.parse(local) : { favourites: [], Bookings: [], token: null };
   });
 
+  useEffect(() => {
+    localStorage.setItem("userDetail", JSON.stringify(userDetail));
+  }, [userDetail]);
+
   return (
-    <UserDetailContext.Provider value={{userDetail, setUserDetail}}>
+    <UserDetailContext.Provider value={{ userDetail, setUserDetail }}>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <Suspense fallback={<div>Loading...</div>}>
             <Routes>
               <Route element={<Layout />}>
-                <Route path="/" element={<Website />}></Route>
-                <Route path="/properties" >
+                <Route path="/" element={<Website />} />
+                <Route path="/properties">
                   <Route index element={<Properties />} />
                   <Route path=":propertyID" element={<Property />} />
                 </Route>
                 <Route path="/favourites" element={<Favourites />} />
-                {/* <Route path="/bookings" element={<Bookings />} /> */}
               </Route>
             </Routes>
           </Suspense>

@@ -202,29 +202,22 @@ export const removeFromFav = expressAsyncHandler(async (req, res) => {
 export const getAllFav = expressAsyncHandler(async (req, res) => {
     const { email } = req.body;
     try {
-        const user = await prisma.user.findUnique({
-            where: { email }
-        });
-        if (!user) {
-            return res.status(404).json({ message: "User not found" });
-        }
-
-        const residencies = await prisma.user.findMany({
-            where:{
-                email
-            },
-            select: {
-                favResidenciesID: true
-            }
-
-        });
-
-        res.send({
-            message: "Favorites fetched successfully",
-            residencies: residencies
-        });
+      const user = await prisma.user.findUnique({
+        where: { email },
+        select: { favResidenciesID: true }
+      });
+  
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+  
+      res.send({
+        message: "Favorites fetched successfully",
+        favourites: user.favResidenciesID,
+      });
     } catch (error) {
-        console.error("Error fetching favorites:", error);
-        res.status(500).json({ message: "Internal server error" });
+      console.error("Error fetching favorites:", error);
+      res.status(500).json({ message: "Internal server error" });
     }
-})
+  });
+  
