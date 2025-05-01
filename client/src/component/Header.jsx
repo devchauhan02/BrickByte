@@ -7,6 +7,7 @@ import { Link, NavLink } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import useAuthCheck from "../hooks/useAuthCheck";
 import ProfileMenu from "./ProfileMenu";
+import AddPropertyModel from "./AddPropertyModel";
 
 const Header = () => {
   const [menuOpened, setMenuOpened] = useState(false);
@@ -17,7 +18,7 @@ const Header = () => {
 
   const handleAddPropertyClick = () => {
     if (validateLogin()) {
-      setModalOpened(true);
+      setModalOpened(true);  // Open the modal
     }
   };
 
@@ -31,19 +32,15 @@ const Header = () => {
 
         {/* Desktop Menu */}
         <OutsideClickHandler onOutsideClick={() => setMenuOpened(false)}>
-          <div
-            className={`hidden md:flex items-center gap-8 font-medium text-gray-200`}
-            style={getMenuStyles(menuOpened)}
-          >
-            <NavLink to="/properties" className="hover:text-white">
-              Properties
-            </NavLink>
-            <a href="mailto:devashischauhan07@gmail.com" className="hover:text-white">
-              Contact
-            </a>
+          <div className={`hidden md:flex items-center gap-8 font-medium text-gray-200`} style={getMenuStyles(menuOpened)}>
+            <NavLink to="/properties" className="hover:text-white">Properties</NavLink>
+            <a href="mailto:devashischauhan07@gmail.com" className="hover:text-white">Contact</a>
 
             {/* Add Property Button */}
-            <div onClick={handleAddPropertyClick}>Add Property</div>
+            <div className="cursor-pointer" onClick={handleAddPropertyClick}>Add Property</div>
+
+            {/* Modal */}
+            <AddPropertyModel opened={modalOpened} setOpened={setModalOpened} />
 
             {/* Login / Profile Menu */}
             {!isAuthenticated ? (
@@ -60,10 +57,7 @@ const Header = () => {
         </OutsideClickHandler>
 
         {/* Mobile Menu Icon */}
-        <div
-          className="md:hidden text-white cursor-pointer"
-          onClick={() => setMenuOpened((prev) => !prev)}
-        >
+        <div className="md:hidden text-white cursor-pointer" onClick={() => setMenuOpened((prev) => !prev)}>
           <BiMenuAltRight size={30} />
         </div>
       </div>
@@ -71,12 +65,8 @@ const Header = () => {
       {/* Mobile Dropdown Menu */}
       {menuOpened && (
         <div className="absolute top-[80px] right-6 bg-white text-black flex flex-col gap-6 p-8 rounded-lg shadow-md md:hidden z-50 font-medium">
-          <NavLink to="/properties" onClick={() => setMenuOpened(false)}>
-            Properties
-          </NavLink>
-          <a href="mailto:devashischauhan07@gmail.com" onClick={() => setMenuOpened(false)}>
-            Contact
-          </a>
+          <NavLink to="/properties" onClick={() => setMenuOpened(false)}>Properties</NavLink>
+          <a href="mailto:devashischauhan07@gmail.com" onClick={() => setMenuOpened(false)}>Contact</a>
           <button onClick={handleAddPropertyClick}>Add Property</button>
 
           {!isAuthenticated ? (

@@ -36,24 +36,37 @@ const Favourites = () => {
     );
   }
 
+  const filteredFavorites = data.residencies.filter((property) =>
+    favourites.includes(property.id)
+  ).filter(
+    (property) =>
+      property.title.toLowerCase().includes(filter.toLowerCase()) ||
+      property.city.toLowerCase().includes(filter.toLowerCase()) ||
+      property.country.toLowerCase().includes(filter.toLowerCase())
+  );
+
   return (
     <div className="w-full px-4 py-8">
       <div className="max-w-6xl mx-auto flex flex-col items-center gap-8">
         <SearchBar filter={filter} setFilter={setFilter} />
 
-        <div className="w-full flex flex-wrap justify-center gap-6">
-          {data.residencies
-            .filter((property) => favourites.includes(property.id))
-            .filter(
-              (property) =>
-                property.title.toLowerCase().includes(filter.toLowerCase()) ||
-                property.city.toLowerCase().includes(filter.toLowerCase()) ||
-                property.country.toLowerCase().includes(filter.toLowerCase())
-            )
-            .map((card, i) => (
-              <PropertyCard card={card} key={i} />
-            ))}
-        </div>
+        {favourites.length === 0 ? (
+          <div className="text-center text-xl text-gray-500">
+            <p>No favorites added yet. Add some to see them here!</p>
+          </div>
+        ) : (
+          <div className="w-full flex flex-wrap justify-center gap-6">
+            {filteredFavorites.length === 0 ? (
+              <div className="text-center text-xl text-gray-500">
+                <p>No favorites match your search criteria.</p>
+              </div>
+            ) : (
+              filteredFavorites.map((card, i) => (
+                <PropertyCard card={card} key={i} />
+              ))
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
