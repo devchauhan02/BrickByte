@@ -185,3 +185,19 @@ export const createResidency = async (data, token) => {
     throw error
   }
 }
+
+export const deleteResidency = async (id, token) => {
+  const res = await fetch(`http://localhost:8000/api/residency/delete/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    const errorData = await res.json();
+    throw new Error(errorData.message || "Failed to delete property");
+  }
+
+  return res.json();
+};

@@ -91,3 +91,25 @@ export const getResidencyById = expressAsyncHandler(async (req, res) => {
         return res.status(400).json({ message: "Invalid residency data" });
     }
 })
+
+export const deleteResidency = expressAsyncHandler(async (req, res) => {
+    const { id } = req.params;
+  
+    try {
+      const residency = await prisma.residency.delete({
+        where: {
+          id: id,
+        },
+      });
+  
+      if (!residency) {
+        return res.status(404).json({ message: "Residency not found" });
+      }
+  
+      return res.status(200).json({ message: "Residency deleted successfully" });
+    } catch (error) {
+      console.error("Server error while deleting residency:", error); 
+      return res.status(500).json({ message: "Server error while deleting the residency" });
+    }
+  });
+  

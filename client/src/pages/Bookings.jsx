@@ -3,14 +3,14 @@ import UserDetailContext from "../context/UserDetailContext";
 import useProperties from "../hooks/useProperties";
 import PropertyCard from "../component/PropertyCard";
 import PuffLoader from "react-spinners/PuffLoader";
-import SearchBar from "../component/SearchBar"; // Make sure this is the updated SearchBar with props
+import SearchBar from "../component/SearchBar"; 
 
 const Bookings = () => {
   const { userDetail, setUserDetail } = useContext(UserDetailContext);
   const { data, isLoading, isError } = useProperties();
 
   const [filteredBookings, setFilteredBookings] = useState([]);
-  const [filter, setFilter] = useState(""); // ✅ Define the filter state
+  const [filter, setFilter] = useState("");
 
   useEffect(() => {
     const storedUserDetail = JSON.parse(localStorage.getItem("userDetail"));
@@ -31,7 +31,7 @@ const Bookings = () => {
     }
   }, [data, userDetail]);
 
-  // ✅ Apply filtering based on search input
+ 
   const searchFiltered = filteredBookings.filter((property) =>
     property.title.toLowerCase().includes(filter.toLowerCase()) ||
     property.city.toLowerCase().includes(filter.toLowerCase()) ||
