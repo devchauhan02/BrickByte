@@ -2,12 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { Button, Group } from "@mantine/core";
 
-const UploadImage = ({
-  propertyDetails,
-  setPropertyDetails,
-  nextStep,
-  prevStep,
-}) => {
+const UploadImage = ({ propertyDetails, setPropertyDetails, nextStep, prevStep }) => {
   const [imageURL, setImageURL] = useState(propertyDetails.image);
   const cloudinaryRef = useRef();
   const widgetRef = useRef();
@@ -18,7 +13,6 @@ const UploadImage = ({
   };
 
   useEffect(() => {
-    // Dynamically load Cloudinary script if it's not already loaded
     const loadCloudinaryScript = () => {
       if (!window.cloudinary) {
         const script = document.createElement("script");

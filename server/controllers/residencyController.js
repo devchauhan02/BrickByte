@@ -2,9 +2,11 @@ import { prisma } from "../config/prismaConfig.js";
 import expressAsyncHandler from "express-async-handler";
 
 export const createResidency = expressAsyncHandler(async (req, res) => {
-   
-    const {title, description, address, city, country, image , facilities, userEmail, price} = req.body.data;
+    const { title, description, address, city, country, image, facilities, userEmail, price } = req.body.data;
+  
+    // Check for missing fields
     if (!title || !description || !address || !city || !country || !image || !facilities || !userEmail || !price) {
+        console.log("Missing fields in the request: ", { title, description, address, city, country, image, facilities, userEmail, price });
         return res.status(400).json({ 
             message: "Missing fields", 
             missing: {
@@ -21,14 +23,15 @@ export const createResidency = expressAsyncHandler(async (req, res) => {
         });
     }
     
+    // Check if user exists
     const user = await prisma.user.findUnique({
-        where: {
-            email: userEmail,
-        },
+        where: { email: userEmail },
     });
     if (!user) {
-        return res.status(400).json({ message: "User does not exist. Please Create one first" });
+        return res.status(400).json({ message: "User does not exist. Please create one first." });
     }
+
+    // Create new residency
     const residency = await prisma.residency.create({
         data: {
             title,
@@ -38,20 +41,20 @@ export const createResidency = expressAsyncHandler(async (req, res) => {
             country,
             image,
             facilities,
-            owner : {connect : {email: userEmail}},
+            owner: { connect: { email: userEmail } },
             price,
-
         },
     });
+
     if (residency) {
         return res.send({
             message: "Residency created successfully",
             residency: residency
-        })
+        });
     } else {
         return res.status(400).json({ message: "Invalid residency data" });
     }
-})
+});
 
 export const getAllResidencies = expressAsyncHandler(async (req, res) => {
     const residencies = await prisma.residency.findMany({

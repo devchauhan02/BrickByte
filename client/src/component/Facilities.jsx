@@ -1,3 +1,5 @@
+// Facilities.jsx
+
 import { useAuth0 } from "@auth0/auth0-react";
 import { Box, Button, Group, NumberInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
@@ -34,11 +36,16 @@ const Facilities = ({
   const handleSubmit = () => {
     const { hasErrors } = form.validate();
     if (!hasErrors) {
-      setPropertyDetails((prev) => ({
-        ...prev,
+      const updatedDetails = {
+        ...propertyDetails,
         facilities: { bedrooms, parkings, bathrooms },
-      }));
-      mutate();
+      };
+
+      // Debugging the updated property details
+      console.log("Submitting property details:", updatedDetails);
+
+      setPropertyDetails(updatedDetails);
+      mutate(updatedDetails);  // Ensure the updated details are passed to the mutation
     }
   };
 
@@ -58,7 +65,7 @@ const Facilities = ({
 
   // Prevent errors in mutation if token is not available
   const { mutate, isLoading } = useMutation({
-    mutationFn: () => {
+    mutationFn: (updatedDetails) => {
       if (!token) {
         toast.error("Token is missing", { position: "bottom-right" });
         console.error("Token is missing!");  // Log the issue
@@ -66,14 +73,9 @@ const Facilities = ({
       }
 
       console.log("Token is available:", token);  // Confirm token availability
+      console.log("Payload for createResidency:", updatedDetails);  // Check payload
 
-      return createResidency(
-        {
-          ...propertyDetails,
-          facilities: { bedrooms, parkings, bathrooms },
-        },
-        token
-      );
+      return createResidency(updatedDetails, token);
     },
     onError: ({ response }) => toast.error(response.data.message, { position: "bottom-right" }),
     onSettled: () => {

@@ -167,24 +167,25 @@ export const getAllBookings = async (email, token) => {
 
 
 export const createResidency = async (data, token) => {
-  console.log(data)
-  try{
+  console.log(data); // Log data before sending it
+  try {
     const res = await api.post(
       `/residency/create`,
       {
-        data
+        data,
       },
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
-    )
-  }catch(error)
-  {
-    throw error
+    );
+    return res.data; // Return data if successful
+  } catch (error) {
+    console.error("Error creating residency:", error.response?.data || error.message);
+    throw error; // Rethrow error to propagate it
   }
-}
+};
 
 export const deleteResidency = async (id, token) => {
   const res = await fetch(`http://localhost:8000/api/residency/delete/${id}`, {
