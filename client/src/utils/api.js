@@ -99,7 +99,7 @@ export const removeBooking = async (id, email, token) => {
 export const toFav = async (id, email, token) => {
   try {
     await api.post(
-      `/user/toFav/${id}`,
+      `/user/addToFav/${id}`,
       {
         email,
       },
@@ -120,7 +120,7 @@ export const getAllFav = async (email, token) => {
   try{
 
     const res = await api.post(
-      `/user/allFav`,
+      `/user/getAllFav`,
       {
         email,
       },

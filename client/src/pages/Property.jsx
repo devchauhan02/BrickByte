@@ -16,6 +16,7 @@ import UserDetailContext from '../context/UserDetailContext';
 import { Button } from '@mantine/core';
 import { removeBooking } from '../utils/api';
 import { toast } from 'react-toastify';
+import Heart from '../component/Heart';
 
 
 
@@ -56,7 +57,7 @@ const Property = () => {
     <div>
       <div className="gap-[2rem] relative">
         <div className='absolute top-[1.1rem] right-[15rem] cursor-pointer'>
-          <AiFillHeart size={24} color='red' />
+          <Heart id={id} />
         </div>
         <img src={data?.residency?.image} className='mx-auto max-h-[30rem] w-[70%] rounded-xl mt-[2rem] object-cover' />
 
