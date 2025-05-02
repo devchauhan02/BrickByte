@@ -27,7 +27,11 @@ const Header = () => {
       <div className="max-w-[1200px] mx-auto flex justify-between items-center py-4 px-6 sm:px-10 text-white">
         {/* Logo */}
         <Link to="/">
-          <img src="./logo3.png" alt="logo" className="w-[100px] h-[50px]" />
+          <img
+            src="./logo.png"
+            alt="Value"
+            
+          />
         </Link>
 
         {/* Desktop Menu */}

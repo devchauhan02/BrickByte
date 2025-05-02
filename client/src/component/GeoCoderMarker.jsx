@@ -1,38 +1,58 @@
-import React, { useEffect, useState } from 'react'
-import { Marker, Popup, useMap } from 'react-leaflet'
-import L from 'leaflet'
-import "leaflet/dist/leaflet.css"
+import React, { useEffect, useState } from 'react';
+import { Marker, Popup, useMap } from 'react-leaflet';
+import L from 'leaflet';
+import "leaflet/dist/leaflet.css";
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
-import * as ELG from 'esri-leaflet-geocoder'
-
-let DefaulIcon = L.icon ({
-    iconUrl : icon, 
-    shadowUrl: iconShadow
-})
-L.Marker.prototype.options.icon = DefaulIcon
+import * as ELG from 'esri-leaflet-geocoder';
 
 
-const GeoCoderMarker = ({address}) => {
+let DefaultIcon = L.icon({
+  iconUrl: icon,
+  shadowUrl: iconShadow
+});
+L.Marker.prototype.options.icon = DefaultIcon;
 
-    const map = useMap()
-    const [position, setPosition] = useState([60, 19])
+const GeoCoderMarker = ({ address }) => {
+  const map = useMap();
+  const [position, setPosition] = useState(null);
 
-    useEffect(()=> {
-        ELG.geocode().text(address).run((err, results, response)=> {
-            if(results?.results?.length > 0){
-                const {lat, lng} = results?.results[0].latlng
-                setPosition([lat, lng])
-                map.flyTo([lat, lng], 6)
-            }
-        })
-    }, [address])
+  useEffect(() => {
+    if (!address || address.trim().length < 10) {
+      console.warn("Invalid address:", address); 
+      return; 
+    }
 
-  return (
-    <Marker position={position} icon={DefaulIcon}>
-        <Popup/>
+    const timeout = setTimeout(() => {
+      console.log("Geocoding:", address);
+
+      ELG.geocode().text(address).run((err, results) => {
+        if (err) {
+          console.error("Geocoding error:", err);
+          return;
+        }
+
+        console.log("Geocoding results:", results);  
+
+        const coords = results?.results?.[0]?.latlng;
+        if (coords) {
+          console.log("Geocoded position:", coords);  
+          setPosition([coords.lat, coords.lng]);
+          map.flyTo([coords.lat, coords.lng], 13);  
+        } else {
+          console.warn("No results for address:", address);  
+        }
+      });
+    }, 500); 
+
+    return () => clearTimeout(timeout); 
+  }, [address, map]);  
+
+  return position ? (
+    <Marker position={position} icon={DefaultIcon}>
+      <Popup>{address}</Popup>
     </Marker>
-  )
-}
+  ) : null;
+};
 
-export default GeoCoderMarker
+export default GeoCoderMarker;

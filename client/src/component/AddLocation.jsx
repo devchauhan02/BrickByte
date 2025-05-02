@@ -25,19 +25,19 @@ const AddLocation = ({ propertyDetails, setPropertyDetails, nextStep }) => {
   const { country, city, address } = form.values;
 
 
-  const handleSubmit = ()=> {
-    const {hasErrors} = form.validate();
-    if(!hasErrors) {
-        setPropertyDetails((prev)=> ({...prev, city, address, country}))
-        nextStep()
+  const handleSubmit = () => {
+    const { hasErrors } = form.validate();
+    if (!hasErrors) {
+      setPropertyDetails((prev) => ({ ...prev, city, address, country }))
+      nextStep()
     }
   }
   return (
     <form
-    onSubmit={(e)=>{
+      onSubmit={(e) => {
         e.preventDefault();
         handleSubmit()
-    }}
+      }}
     >
       <div
         className="flexCenter"
@@ -80,13 +80,15 @@ const AddLocation = ({ propertyDetails, setPropertyDetails, nextStep }) => {
         {/* right side */}
 
         <div style={{ flex: 1 }}>
-          <Map address={address} city={city} country={country} />
+          {country && city && address && address.length > 5 && (
+            <Map address={address} city={city} country={country} />
+          )}
         </div>
       </div>
-
-      <Group position="center" mt={"xl"}>
-        <Button type="submit">Next Step</Button>
-      </Group>
+      
+        <Group position="center" mt={"xl"}>
+          <Button type="submit">Next Step</Button>
+        </Group>
     </form>
   );
 };

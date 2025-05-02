@@ -10,7 +10,7 @@ const Hero = () => {
         {/* Left Side */}
         <div className="flex flex-col gap-12 max-w-[550px] sm:px-15">
           <div className="relative z-[1]">
-            <div className="absolute right-[48%] -top-[11%] w-13 h-13 rounded-full z-[-10] bg-gradient-to-r from-orange-400 to-orange-600" />
+            <div className="absolute right-[55%] -top-[8%] w-12 h-12 rounded-full z-[-10] bg-gradient-to-r from-orange-400 to-orange-600" />
             <motion.h1
               initial={{ y: "2rem", opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
