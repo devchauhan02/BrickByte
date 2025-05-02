@@ -22,9 +22,9 @@ const Layout = () => {
 
       const res = await getAccessTokenWithPopup({
         authorizationParams: {
-          audience: "https://dev-dlyhq0f4hkcg6xtu.us.auth0.com/api/v2/",
+          audience: import.meta.env.VITE_AUTH0_AUDIENCE,
           scope: "openid profile email",
-        },
+        }
       });
       localStorage.setItem("access_token", res);
       setUserDetail((prev) => ({ ...prev, token: res }));
